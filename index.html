@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VN MultiSearch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #input-div {
+            display: flex;
+            flex-direction: column;
+            padding-block: 10px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 24px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>VN MultiSearch</h1>
+    <div id="input-div">
+        <input type="text" id="searchInput" placeholder="Enter Visual Novel name" oninput="generateLinks()">
+    </div>
+    
+    <h2>Search Results:</h2>
+    <ul id="resultLinks"></ul>
+
+    <script>
+        // Array containing the sites with their respective search URL patterns
+        const sites = [
+            { name: "VNDB", url: "https://vndb.org/v?sq=" },
+            { name: "F95zone", url: "https://f95zone.to/search/?c[title_only]=1&o=relevance&q=" },
+            { name: "Sukebei", url: "https://sukebei.nyaa.si/?f=0&c=1_3&q="},
+            { name: "Ryuugames", url: "https://www.ryuugames.com/?s=" },
+            { name: "ErogeDownload", url: "https://erogedownload.com/?s=" },
+            { name: "CPGRepacks", url: "https://cpgrepacks.site/?s=" }
+        ];
+
+        // Function to generate the search links dynamically as the user types
+        function generateLinks() {
+            const searchQuery = document.getElementById("searchInput").value;
+            const resultList = document.getElementById("resultLinks");
+
+            resultList.innerHTML = ""; // Clear previous results
+
+            if (searchQuery.trim() !== "") {
+                sites.forEach(site => {
+                    const link = `${site.url}${encodeURIComponent(searchQuery)}`;
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `${site.name}: <a href="${link}" target="_blank">${link}</a>`;
+                    resultList.appendChild(listItem);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
